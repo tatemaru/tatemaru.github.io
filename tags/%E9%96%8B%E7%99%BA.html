@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「開発」の投稿 - たてまる blog</title>
+    <meta name="description" content="Web系テック記事とアウトドア関連を中心に、日々の出来事を綴るブログ">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    
+    <header class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900">
+          <a href="/" class="hover:text-blue-600 transition-colors duration-200">たてまる blog</a>
+        </h1>
+        <ul class="flex items-center space-x-8">
+          <li><a href="/" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a></li>
+          <li><a href="/about" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">About</a></li>
+          <li><button id="tags-button" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Tags</button></li>
+          <li>
+            <div class="relative group">
+              <button class="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                Archive
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div class="py-2">
+                  <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">すべての投稿</a>
+                  
+                    <div class="relative group/year">
+                      <div class="block px-4 py-2 text-sm transition-colors duration-200 flex items-center justify-between cursor-pointer text-gray-700 hover:bg-gray-100">
+                        <a href="/archive/2024" class="flex-grow">2024年</a>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                      <div class="absolute left-full top-0 w-32 bg-white rounded-md shadow-lg border border-gray-200 ml-1 opacity-0 invisible group-hover/year:opacity-100 group-hover/year:visible transition-all duration-200 z-50">
+                        <div class="py-2">
+                          
+                            <a href="/archive/2024/06" class="block px-4 py-2 text-sm transition-colors duration-200 text-gray-700 hover:bg-gray-100">6月</a>
+                          
+                            <a href="/archive/2024/01" class="block px-4 py-2 text-sm transition-colors duration-200 text-gray-700 hover:bg-gray-100">1月</a>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+    <main class="flex-grow max-w-7xl mx-auto px-6 py-8 w-full">
+      <div class="w-full">
+        <header class="text-center mb-12">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">「開発」の投稿</h1>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            タグ「開発」に関連する記事一覧です。（2件）
+          </p>
+        </header>
+        
+        
+          <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+              <a href="/posts/2024-06-learning" class="block hover:shadow-lg transition-shadow duration-200">
+                <article class="post-card">
+                  <div class="aspect-video bg-gray-200 overflow-hidden">
+                    <img src="/images/placeholder.svg" alt="新しいことを学ぶ" class="w-full h-full object-cover" loading="lazy">
+                  </div>
+                  <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                      <span class="tag">学習</span><span class="tag">TypeScript</span><span class="tag">技術</span><span class="tag">開発</span>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-200">
+                      新しいことを学ぶ
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">TypeScriptの新機能について調べてみました。開発がより楽しくなりそうです。</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                      <time datetime="2024-06-17">2024/6/17</time>
+                    </div>
+                  </div>
+                </article>
+              </a>
+            
+              <a href="/posts/2024-01-blog-start" class="block hover:shadow-lg transition-shadow duration-200">
+                <article class="post-card">
+                  <div class="aspect-video bg-gray-200 overflow-hidden">
+                    <img src="/images/placeholder.svg" alt="ブログを始めました" class="w-full h-full object-cover" loading="lazy">
+                  </div>
+                  <div class="p-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                      <span class="tag">技術</span><span class="tag">ブログ</span><span class="tag">Hono</span><span class="tag">開発</span>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-200">
+                      ブログを始めました
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">Honoを使って静的サイト生成ブログを作りました。日々の出来事を記録していきます。</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                      <time datetime="2024-01-15">2024/1/15</time>
+                    </div>
+                  </div>
+                </article>
+              </a>
+            
+          </section>
+        
+      </div>
+    </main>
+    <footer class="bg-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+      <p>© 2025 My Daily Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

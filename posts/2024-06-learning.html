@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新しいことを学ぶ - たてまる blog</title>
+    <meta name="description" content="Web系テック記事とアウトドア関連を中心に、日々の出来事を綴るブログ">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    
+    <header class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900">
+          <a href="/" class="hover:text-blue-600 transition-colors duration-200">たてまる blog</a>
+        </h1>
+        <ul class="flex items-center space-x-8">
+          <li><a href="/" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a></li>
+          <li><a href="/about" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">About</a></li>
+          <li><button id="tags-button" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Tags</button></li>
+          <li>
+            <div class="relative group">
+              <button class="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                Archive
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div class="py-2">
+                  <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">すべての投稿</a>
+                  
+                    <div class="relative group/year">
+                      <div class="block px-4 py-2 text-sm transition-colors duration-200 flex items-center justify-between cursor-pointer text-gray-700 hover:bg-gray-100">
+                        <a href="/archive/2024" class="flex-grow">2024年</a>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                      <div class="absolute left-full top-0 w-32 bg-white rounded-md shadow-lg border border-gray-200 ml-1 opacity-0 invisible group-hover/year:opacity-100 group-hover/year:visible transition-all duration-200 z-50">
+                        <div class="py-2">
+                          
+                            <a href="/archive/2024/06" class="block px-4 py-2 text-sm transition-colors duration-200 text-gray-700 hover:bg-gray-100">6月</a>
+                          
+                            <a href="/archive/2024/01" class="block px-4 py-2 text-sm transition-colors duration-200 text-gray-700 hover:bg-gray-100">1月</a>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+    <main class="flex-grow max-w-4xl mx-auto px-6 py-8 w-full">
+      <article class="bg-white rounded-lg shadow-sm p-8">
+        <header class="mb-8">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">新しいことを学ぶ</h1>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="tag">学習</span><span class="tag">TypeScript</span><span class="tag">技術</span><span class="tag">開発</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-gray-500 border-b border-gray-200 pb-4">
+            <time datetime="2024-06-17">作成日: 2024/6/17</time>
+            
+          </div>
+        </header>
+        <div class="prose prose-lg max-w-none">
+          <p class="text-gray-700 leading-relaxed mb-4">
+<h1 class="text-3xl font-bold text-gray-900 mb-6">新しいことを学ぶ</h1></p>
+<p class="text-gray-700 leading-relaxed mb-4">今日はTypeScriptの新機能について調べる時間を作りました。</p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">調べたこと</h2>
+<p class="text-gray-700 leading-relaxed mb-4">- 新しい型の書き方
+- パフォーマンスの改善
+- ライブラリとの連携</p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">感想</h2>
+<p class="text-gray-700 leading-relaxed mb-4">技術は日々進歩していて、追いかけるのは大変ですが、
+新しい発見があるのは楽しいですね。</p>
+<p class="text-gray-700 leading-relaxed mb-4">少しずつでも継続的に学んでいこうと思います。</p>
+        </div>
+        <footer class="mt-8 pt-8 border-t border-gray-200">
+          <a href="/" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            記事一覧に戻る
+          </a>
+        </footer>
+      </article>
+    </main>
+    <footer class="bg-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+      <p>© 2025 My Daily Blog. All rights reserved.</p>
+    </div>
+  </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const tagsButton = document.getElementById('tags-button');
+        if (tagsButton) {
+          tagsButton.addEventListener('click', function() {
+            window.location.href = '/';
+          });
+        }
+      });
+    </script>
+</body>
+</html>

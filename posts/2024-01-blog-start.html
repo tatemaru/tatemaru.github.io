@@ -6,6 +6,8 @@
     <title>ブログを始めました - たてまる blog</title>
     <meta name="description" content="Web系テック記事とアウトドア関連を中心に、日々の出来事を綴るブログ">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     
@@ -78,7 +80,7 @@
 <li class="mb-2">思考を言語化する練習のため</li></ul>
 <h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">技術的な話</h2>
 <p class="text-gray-700 leading-relaxed mb-4">このブログはHonoを使って作りました。静的サイト生成で、GitHub Pagesにホストしています。</p>
-<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6"><code class="language-javascript text-sm font-mono whitespace-pre">// Honoアプリケーションの例
+<pre class="line-numbers"><code class="language-javascript">// Honoアプリケーションの例
 import { Hono } from &#39;hono&#39;
 
 const app = new Hono()
@@ -112,5 +114,8 @@ app.get(&#39;/&#39;, (c) =&gt; c.text(&#39;Hello Blog!&#39;))</code></pre>
         }
       });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
 </body>
 </html>

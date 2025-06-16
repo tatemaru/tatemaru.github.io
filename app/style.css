@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.post-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300;
+}
+
+.tag {
+  @apply inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2 mb-2;
+}
+
+.no-posts {
+  @apply text-gray-500;
+}
+
+.post-content {
+  @apply prose prose-gray max-w-none;
+}
+
+.post-content h1 {
+  @apply text-2xl font-bold mb-4;
+}
+
+.post-content h2 {
+  @apply text-xl font-semibold mb-3;
+}
+
+.post-content h3 {
+  @apply text-lg font-medium mb-2;
+}
+
+.post-content p {
+  @apply mb-4 leading-relaxed;
+}
+
+.post-content ul, .post-content ol {
+  @apply mb-4 pl-6;
+}
+
+.post-content li {
+  @apply mb-2;
+}
+
+.post-content code {
+  @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
+}
+
+.post-content pre {
+  @apply bg-gray-900 text-white p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.post-content pre code {
+  @apply bg-transparent p-0;
+}
+
+/* Archive dropdown improvements */
+.group:hover .group-hover\:opacity-100 {
+  @apply opacity-100;
+}
+
+.group:hover .group-hover\:visible {
+  @apply visible;
+}
+
+/* Submenu positioning with proper z-index */
+.group\/year:hover .group-hover\/year\:opacity-100 {
+  @apply opacity-100;
+}
+
+.group\/year:hover .group-hover\/year\:visible {
+  @apply visible;
+}
+
+/* Ensure proper visibility and interaction */
+.group\/year:hover .group-hover\/year\:opacity-100,
+.group\/year:hover .group-hover\/year\:visible {
+  pointer-events: auto;
+}
+
+/* Modal animations */
+.modal-enter {
+  @apply opacity-0;
+}
+
+.modal-enter-active {
+  @apply opacity-100 transition-opacity duration-200;
+}
+
+.modal-exit {
+  @apply opacity-100;
+}
+
+.modal-exit-active {
+  @apply opacity-0 transition-opacity duration-200;
+}
+
+/* Tag items in modal */
+.tag-item {
+  @apply transition-all duration-200 hover:scale-105;
+}
+
+.tag-item:hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}

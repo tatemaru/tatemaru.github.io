@@ -1,0 +1,83 @@
+name: Build and Deploy HonoX Blog to GitHub Pages
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build Tailwind CSS
+      run: npm run build:css
+      
+    - name: Build static site with HonoX
+      run: npm run build:ssg
+      
+    - name: Generate static pages
+      run: npm run generate:pages
+      
+    - name: Deploy to main branch
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Store current directory
+        WORK_DIR=$(pwd)
+        
+        # Debug: Check dist directory contents
+        echo "Checking dist directory:"
+        ls -la dist/ || echo "dist directory not found"
+        
+        # Fetch all branches
+        git fetch origin
+        
+        # Create a temporary directory and copy dist contents
+        mkdir -p /tmp/temp_deploy
+        if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
+          cp -r dist/* /tmp/temp_deploy/
+          echo "Files copied to /tmp/temp_deploy:"
+          ls -la /tmp/temp_deploy/
+        else
+          echo "Error: dist directory is empty or doesn't exist"
+          exit 1
+        fi
+        
+        # Switch to main branch (create if doesn't exist)
+        git checkout -B main origin/main || git checkout -b main
+        
+        # Remove all files except .git and .github
+        find . -maxdepth 1 -not -name '.git' -not -name '.github' -not -name '.' -not -name '..' -exec rm -rf {} + 2>/dev/null || true
+        
+        # Copy built files to root
+        cp -r /tmp/temp_deploy/* .
+        
+        # Add and commit changes
+        git add .
+        git diff --staged --quiet || git commit -m "🚀 Auto-deploy from develop branch"
+        
+        # Push changes
+        git push origin main

@@ -83,23 +83,107 @@ function generateFooter(): string {
 
 // Helper function to convert markdown to HTML
 function markdownToHtml(content: string): string {
-  return content
-    .replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold text-gray-900 mb-6">$1</h1>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">$1</h2>')
-    .replace(/^### (.+)$/gm, '<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">$1</h3>')
-    .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold">$1</strong>')
-    .replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>')
-    .replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">$1</code>')
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full h-auto rounded-lg shadow-md my-6">')
-    .split('\n\n')
-    .map(paragraph => {
-      if (paragraph.startsWith('<h') || paragraph.startsWith('<img')) {
-        return paragraph
+  // Split content into blocks first, preserving code blocks
+  const blocks: string[] = []
+  let current = ''
+  let inCodeBlock = false
+  
+  const lines = content.split('\n')
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    
+    if (line.startsWith('```')) {
+      if (inCodeBlock) {
+        // End of code block
+        current += line + '\n'
+        blocks.push(current.trim())
+        current = ''
+        inCodeBlock = false
+      } else {
+        // Start of code block
+        if (current.trim()) {
+          blocks.push(current.trim())
+          current = ''
+        }
+        current += line + '\n'
+        inCodeBlock = true
       }
-      return paragraph.trim() ? `<p class="text-gray-700 leading-relaxed mb-4">${paragraph}</p>` : ''
-    })
-    .filter(Boolean)
-    .join('\n')
+    } else if (inCodeBlock) {
+      current += line + '\n'
+    } else if (line.trim() === '') {
+      if (current.trim()) {
+        blocks.push(current.trim())
+        current = ''
+      }
+    } else {
+      current += line + '\n'
+    }
+  }
+  
+  if (current.trim()) {
+    blocks.push(current.trim())
+  }
+  
+  // Process each block
+  const processedBlocks = blocks.map(block => {
+    const trimmed = block.trim()
+    
+    // Handle code blocks
+    if (trimmed.startsWith('```')) {
+      const match = trimmed.match(/```(\w+)?\n([\s\S]*?)\n```/)
+      if (match) {
+        const language = match[1] || 'text'
+        const code = match[2]
+        return `<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6"><code class="language-${language} text-sm font-mono whitespace-pre">${escapeHtml(code)}</code></pre>`
+      }
+      return trimmed
+    }
+    
+    // Process regular markdown
+    let html = trimmed
+    
+    // Handle headers
+    html = html.replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8 first:mt-0">$1</h1>')
+    html = html.replace(/^## (.+)$/gm, '<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">$1</h2>')
+    html = html.replace(/^### (.+)$/gm, '<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">$1</h3>')
+    
+    // Handle lists
+    html = html.replace(/^- (.+)$/gm, '<li class="mb-2">$1</li>')
+    
+    // Handle bold and italic
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold">$1</strong>')
+    html = html.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>')
+    
+    // Handle inline code
+    html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">$1</code>')
+    
+    // Handle images
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full h-auto rounded-lg shadow-md my-6">')
+    
+    // Wrap content appropriately
+    if (html.startsWith('<h') || html.startsWith('<img')) {
+      return html
+    } else if (html.includes('<li')) {
+      return `<ul class="list-disc list-inside space-y-2 mb-4 ml-4">${html}</ul>`
+    } else {
+      return `<p class="text-gray-700 leading-relaxed mb-4">${html}</p>`
+    }
+  })
+  
+  return processedBlocks.join('\n')
+}
+
+// Helper function to escape HTML
+function escapeHtml(text: string): string {
+  const div = { innerHTML: '' } as any
+  div.textContent = text
+  return div.innerHTML || text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
 
 async function generateStaticPages() {

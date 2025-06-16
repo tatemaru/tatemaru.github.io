@@ -12,9 +12,14 @@ function generateLayout(title: string, content: string): string {
     <title>${title}</title>
     <meta name="description" content="Web系テック記事とアウトドア関連を中心に、日々の出来事を綴るブログ">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     ${content}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
 </body>
 </html>`
 }
@@ -135,7 +140,7 @@ function markdownToHtml(content: string): string {
       if (match) {
         const language = match[1] || 'text'
         const code = match[2]
-        return `<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6"><code class="language-${language} text-sm font-mono whitespace-pre">${escapeHtml(code)}</code></pre>`
+        return `<pre class="line-numbers"><code class="language-${language}">${escapeHtml(code)}</code></pre>`
       }
       return trimmed
     }

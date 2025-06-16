@@ -55,6 +55,88 @@
   @apply bg-transparent p-0;
 }
 
+/* Prism.js syntax highlighting customization */
+pre[class*="language-"] {
+  @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6 text-sm font-mono;
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+code[class*="language-"] {
+  @apply text-gray-100 font-mono text-sm;
+  text-shadow: none;
+}
+
+/* Line numbers styling */
+.line-numbers .line-numbers-rows {
+  @apply border-r border-gray-700 pr-3 mr-3;
+}
+
+.line-numbers-rows > span:before {
+  @apply text-gray-500;
+}
+
+/* Token colors for dark theme */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  @apply text-gray-400 italic;
+}
+
+.token.punctuation {
+  @apply text-gray-300;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  @apply text-red-400;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  @apply text-green-400;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  @apply text-yellow-300;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  @apply text-blue-400;
+}
+
+.token.function,
+.token.class-name {
+  @apply text-purple-400;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  @apply text-orange-400;
+}
+
+/* Inline code styling */
+code:not([class*="language-"]) {
+  @apply bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono;
+}
+
 /* Archive dropdown improvements */
 .group:hover .group-hover\:opacity-100 {
   @apply opacity-100;

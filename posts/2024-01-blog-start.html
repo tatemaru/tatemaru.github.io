@@ -70,21 +70,19 @@
           </div>
         </header>
         <div class="prose prose-lg max-w-none">
-          <p class="text-gray-700 leading-relaxed mb-4">
-<h1 class="text-3xl font-bold text-gray-900 mb-6">ブログを始めました</h1></p>
+          <h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8 first:mt-0">ブログを始めました</h1>
 <p class="text-gray-700 leading-relaxed mb-4">今日からこのブログで日々の出来事を記録していくことにしました。</p>
 <h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">なぜブログを始めたのか</h2>
-<p class="text-gray-700 leading-relaxed mb-4">- 日々の経験を振り返るため
-- 学んだことを整理するため
-- 思考を言語化する練習のため</p>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2">日々の経験を振り返るため</li>
+<li class="mb-2">学んだことを整理するため</li>
+<li class="mb-2">思考を言語化する練習のため</li></ul>
 <h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">技術的な話</h2>
 <p class="text-gray-700 leading-relaxed mb-4">このブログはHonoを使って作りました。静的サイト生成で、GitHub Pagesにホストしています。</p>
-<p class="text-gray-700 leading-relaxed mb-4">``<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">javascript
-// Honoアプリケーションの例
-import { Hono } from 'hono'</p>
-<p class="text-gray-700 leading-relaxed mb-4">const app = new Hono()
-app.get('/', (c) => c.text('Hello Blog!'))
-</code>``</p>
+<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6"><code class="language-javascript text-sm font-mono whitespace-pre">// Honoアプリケーションの例
+import { Hono } from &#39;hono&#39;
+
+const app = new Hono()
+app.get(&#39;/&#39;, (c) =&gt; c.text(&#39;Hello Blog!&#39;))</code></pre>
 <h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">これから</h2>
 <p class="text-gray-700 leading-relaxed mb-4">毎日とは言わないまでも、定期的に更新していきたいと思います。</p>
 <p class="text-gray-700 leading-relaxed mb-4">今日はいい一日でした。明日も頑張ろう！</p>

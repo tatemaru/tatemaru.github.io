@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践 - たてまる blog</title>
+    <meta name="description" content="Web系テック記事とアウトドア関連を中心に、日々の出来事を綴るブログ">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/prism/prism-tomorrow.css" rel="stylesheet">
+    <link href="/prism/prism-line-numbers.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    
+    <header class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900">
+          <a href="/" class="hover:text-blue-600 transition-colors duration-200">たてまる blog</a>
+        </h1>
+        <ul class="flex items-center space-x-8">
+          <li><a href="/" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a></li>
+          <li><a href="/about" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">About</a></li>
+          <li><button id="tags-button" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Tags</button></li>
+          <li>
+            <div class="relative group">
+              <button class="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                Archive
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div class="py-2">
+                  <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">すべての投稿</a>
+                  
+                    <div class="relative group/year">
+                      <div class="block px-4 py-2 text-sm transition-colors duration-200 flex items-center justify-between cursor-pointer text-gray-700 hover:bg-gray-100">
+                        <a href="/archive/2024" class="flex-grow">2024年</a>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                      <div class="absolute left-full top-0 w-32 bg-white rounded-md shadow-lg border border-gray-200 ml-1 opacity-0 invisible group-hover/year:opacity-100 group-hover/year:visible transition-all duration-200 z-50">
+                        <div class="py-2">
+                          
+                            <a href="/archive/2024/06" class="block px-4 py-2 text-sm transition-colors duration-200 text-gray-700 hover:bg-gray-100">6月</a>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+    <main class="flex-grow max-w-4xl mx-auto px-6 py-8 w-full">
+      <article class="bg-white rounded-lg shadow-sm p-8">
+        <header class="mb-8">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践</h1>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="tag">Amazon Q</span><span class="tag">AI</span><span class="tag">ゲーム開発</span><span class="tag">Python</span><span class="tag">デザインパターン</span><span class="tag">OpenAI</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-gray-500 border-b border-gray-200 pb-4">
+            <time datetime="2024-06-22">作成日: 2024/6/22</time>
+            
+          </div>
+        </header>
+        <div class="prose prose-lg max-w-none">
+          <h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8 first:mt-0">Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践</h1>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: Amazon Q CLIのロゴまたはオセロゲームのスクリーンショット --></p>
+<p class="text-gray-700 leading-relaxed mb-4">AWSが提供するAIコーディングアシスタント「Amazon Q CLI」を使って、本格的なオセロ（リバーシ）ゲームを開発してみました。この記事では、AIとのペアプログラミングで学んだことや、実装した機能について詳しく紹介します。</p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">プロジェクト概要</h2>
+<p class="text-gray-700 leading-relaxed mb-4">今回作成したオセロゲームは、以下の特徴を持つCLIアプリケーションです：</p>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">🎮 ゲーム機能</h3>
+<li class="mb-2"><strong class="font-semibold">5つのゲームモード</strong>: 人間 vs AI、人間 vs OpenAI、AI vs AI、OpenAI vs OpenAI、人間 vs 人間</li>
+<li class="mb-2"><strong class="font-semibold">AI難易度設定</strong>: Easy（ランダム）、Medium（貪欲法）、Hard（戦略的）</li>
+<li class="mb-2"><strong class="font-semibold">OpenAI API連携</strong>: GPT-4o-mini、GPT-4o、GPT-3.5-turboから選択可能</li>
+<li class="mb-2"><strong class="font-semibold">美しいUI</strong>: 8x8ボードの視覚的表示、リアルタイムスコア表示</li>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: ゲームのメニュー画面のスクリーンショット --></p>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">🏗️ 技術的特徴</h3>
+<li class="mb-2"><strong class="font-semibold">Factory デザインパターン</strong>: プレイヤーインスタンスの生成を抽象化</li>
+<li class="mb-2"><strong class="font-semibold">Interface パターン</strong>: 拡張性の高い設計</li>
+<li class="mb-2"><strong class="font-semibold">Builder パターン</strong>: 設定の柔軟な構築</li>
+<li class="mb-2"><strong class="font-semibold">Docker対応</strong>: 環境に依存しない実行環境</li>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">Amazon Q CLIとの開発体験</h2>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">AIアシスタントの活用場面</h3>
+<p class="text-gray-700 leading-relaxed mb-4">Amazon Q CLIは開発の様々な場面で力を発揮しました：</p>
+<p class="text-gray-700 leading-relaxed mb-4">#### 1. アーキテクチャ設計</p>
+<pre class="line-numbers"><code class="language-bash">q chat &quot;オセロゲームのクラス設計を考えて。Factory パターンを使いたい&quot;</code></pre>
+<p class="text-gray-700 leading-relaxed mb-4">Q CLIは適切なクラス構造とデザインパターンの実装方法を提案してくれました。</p>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: Q CLIとの対話例のスクリーンショット --></p>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4">#### 2. コード生成と最適化
+<li class="mb-2">ボードの表示ロジック</li>
+<li class="mb-2">AI戦略アルゴリズムの実装</li>
+<li class="mb-2">OpenAI API連携コード</li>
+<li class="mb-2">エラーハンドリング</li></ul>
+<p class="text-gray-700 leading-relaxed mb-4">#### 3. テストコード作成</p>
+<pre class="line-numbers"><code class="language-python"># Q CLIが生成したテストコードの例
+def test_create_ai_player(self):
+    &quot;&quot;&quot;Test creating AI player&quot;&quot;&quot;
+    config = PlayerConfig(
+        player_type=PlayerType.AI,
+        name=&quot;Test AI&quot;,
+        ai_difficulty=AIDifficulty.MEDIUM
+    )
+    
+    player = PlayerFactory.create_player(config, Stone.WHITE)
+    
+    self.assertIsInstance(player, AIPlayer)
+    self.assertEqual(player.difficulty, &quot;medium&quot;)</code></pre>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">実装のハイライト</h2>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">Factory パターンの実装</h3>
+<p class="text-gray-700 leading-relaxed mb-4">プレイヤーの生成を抽象化するためにFactory パターンを採用しました：</p>
+<pre class="line-numbers"><code class="language-python">class PlayerFactory:
+    &quot;&quot;&quot;Factory class for creating player instances&quot;&quot;&quot;
+    
+    @staticmethod
+    def create_player(config: PlayerConfig, stone: Stone) -&gt; IPlayer:
+        &quot;&quot;&quot;Create player instance based on configuration&quot;&quot;&quot;
+        if config.player_type == PlayerType.HUMAN:
+            return PlayerFactory._create_human_player(config, stone)
+        elif config.player_type == PlayerType.AI:
+            return PlayerFactory._create_ai_player(config, stone)
+        elif config.player_type == PlayerType.OPENAI:
+            return PlayerFactory._create_openai_player(config, stone)</code></pre>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: クラス図またはアーキテクチャ図 --></p>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">OpenAI API連携</h3>
+<p class="text-gray-700 leading-relaxed mb-4">OpenAI APIを使ったAIプレイヤーも実装しました：</p>
+<pre class="line-numbers"><code class="language-python">def _get_openai_move(self, board: Board, valid_moves: list) -&gt; Optional[Move]:
+    &quot;&quot;&quot;Get move from OpenAI API&quot;&quot;&quot;
+    prompt = f&quot;&quot;&quot;You are playing Othello. You are {stone_name} stones.
+
+{board_str}
+
+Available moves: {moves_str}
+
+Choose the best move considering:
+1. Corner positions are very valuable
+2. Edge positions can be good
+3. Avoid positions next to corners unless you can take the corner
+&quot;&quot;&quot;</code></pre>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">美しいボード表示</h3>
+<p class="text-gray-700 leading-relaxed mb-4">ユーザビリティを重視したボード表示を実装：</p>
+<pre class="line-numbers"><code class="language-text">  ┌───────────────────────────────────────┐
+  │     A   B   C   D   E   F   G   H     │
+  ├───────────────────────────────────────┤
+  │ 1 │ ·   ·   ·   1   ·   ·   ·   · │ 1 │
+  │ 2 │ ·   ·   ·   ·   ·   ·   ·   · │ 2 │
+  │ 3 │ ·   ·   ·   ·   ·   ·   ·   · │ 3 │
+  │ 4 │ ·   ·   2   ○   ●   ·   ·   · │ 4 │
+  │ 5 │ ·   ·   ·   ●   ○   3   ·   · │ 5 │
+  │ 6 │ ·   ·   ·   ·   4   ·   ·   · │ 6 │
+  │ 7 │ ·   ·   ·   ·   ·   ·   ·   · │ 7 │
+  │ 8 │ ·   ·   ·   ·   ·   ·   ·   · │ 8 │
+  ├───────────────────────────────────────┤
+  │     A   B   C   D   E   F   G   H     │
+  └───────────────────────────────────────┘</code></pre>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: 実際のゲーム画面のスクリーンショット --></p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">開発で学んだこと</h2>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">1. AIとのペアプログラミングの効果</h3>
+<p class="text-gray-700 leading-relaxed mb-4">Amazon Q CLIとの開発で感じたメリット：</p>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2"><strong class="font-semibold">高速なプロトタイピング</strong>: アイデアを素早く形にできる</li>
+<li class="mb-2"><strong class="font-semibold">コード品質の向上</strong>: ベストプラクティスを自然に学べる</li>
+<li class="mb-2"><strong class="font-semibold">学習効率の向上</strong>: 新しい技術やパターンを実践的に習得</li></ul>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">2. デザインパターンの重要性</h3>
+<p class="text-gray-700 leading-relaxed mb-4">Factory パターンやInterface パターンを使うことで：</p>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2"><strong class="font-semibold">拡張性</strong>: 新しいプレイヤータイプを簡単に追加可能</li>
+<li class="mb-2"><strong class="font-semibold">保守性</strong>: 各クラスの責任が明確</li>
+<li class="mb-2"><strong class="font-semibold">テスタビリティ</strong>: モックやスタブを使ったテストが容易</li></ul>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">3. Docker化の利点</h3>
+<p class="text-gray-700 leading-relaxed mb-4">開発環境をDocker化することで：</p>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2"><strong class="font-semibold">環境の統一</strong>: 開発・テスト・本番環境の一致</li>
+<li class="mb-2"><strong class="font-semibold">依存関係の管理</strong>: Pythonライブラリの競合回避</li>
+<li class="mb-2"><strong class="font-semibold">デプロイの簡素化</strong>: どこでも同じように動作</li></ul>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">プロジェクト構成</h2>
+<pre class="line-numbers"><code class="language-text">othello/
+├── main.py                 # エントリーポイント
+├── config.py              # 設定管理
+├── game/                  # ゲームロジック
+│   ├── board.py          # ボード管理
+│   ├── game.py           # ゲーム制御
+│   ├── move.py           # 手の情報
+│   └── game_state.py     # ゲーム状態
+├── players/              # プレイヤークラス
+│   ├── player_interface.py  # インターフェース
+│   ├── player_factory.py    # ファクトリー
+│   ├── human_player.py      # 人間プレイヤー
+│   ├── ai_player.py         # AIプレイヤー
+│   └── openai_player.py     # OpenAIプレイヤー
+└── tests/               # テストファイル</code></pre>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: プロジェクト構成図またはファイル構造のスクリーンショット --></p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">実行方法</h2>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">Docker を使用（推奨）</h3>
+<pre class="line-numbers"><code class="language-bash"># リポジトリをクローン
+git clone &lt;repository-url&gt;
+cd othello
+
+# Docker でゲームを実行
+make docker-run
+
+# テストを実行
+make docker-test</code></pre>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">ローカル環境での実行</h3>
+<pre class="line-numbers"><code class="language-bash"># 依存関係をインストール
+make install
+
+# ゲームを実行
+make run</code></pre>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">今後の拡張予定</h2>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2"><strong class="font-semibold">MinMax アルゴリズム</strong>: より高度なAI戦略</li>
+<li class="mb-2"><strong class="font-semibold">ゲーム履歴機能</strong>: 対戦記録の保存・再生</li>
+<li class="mb-2"><strong class="font-semibold">GUI版</strong>: グラフィカルユーザーインターフェース</li>
+<li class="mb-2"><strong class="font-semibold">ネットワーク対戦</strong>: オンラインマルチプレイヤー</li></ul>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">まとめ</h2>
+<p class="text-gray-700 leading-relaxed mb-4">Amazon Q CLIを使ったオセロゲーム開発は、AIアシスタントの可能性を実感できる素晴らしい体験でした。単なるコード生成ツールではなく、設計思想から実装詳細まで、開発のあらゆる段階でサポートしてくれる頼もしいパートナーです。</p>
+<p class="text-gray-700 leading-relaxed mb-4">特に印象的だったのは：</p>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2"><strong class="font-semibold">学習効率の向上</strong>: 新しい技術やパターンを実践的に学べる</li>
+<li class="mb-2"><strong class="font-semibold">品質の向上</strong>: ベストプラクティスを自然に取り入れられる</li>
+<li class="mb-2"><strong class="font-semibold">開発速度の向上</strong>: アイデアを素早く形にできる</li></ul>
+<p class="text-gray-700 leading-relaxed mb-4"><!-- 画像: 完成したゲームのプレイ画面または開発者の感想を表現する画像 --></p>
+<p class="text-gray-700 leading-relaxed mb-4">皆さんもAmazon Q CLIを使って、創造的なプロジェクトに挑戦してみてはいかがでしょうか。きっと新しい発見があるはずです！</p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">リンク</h2>
+<ul class="list-disc list-inside space-y-2 mb-4 ml-4"><li class="mb-2">[プロジェクトリポジトリ](https://github.com/your-username/othello-cli)</li>
+<li class="mb-2">[Amazon Q CLI 公式ドキュメント](https://docs.aws.amazon.com/amazonq/)</li>
+<li class="mb-2">[Amazon Q CLI でゲームを作ろう キャンペーン](https://aws.amazon.com/jp/blogs/news/build-games-with-amazon-q-cli-and-score-a-t-shirt/)</li></ul>
+<p class="text-gray-700 leading-relaxed mb-4">---</p>
+<p class="text-gray-700 leading-relaxed mb-4"><em class="italic">この記事は Amazon Q CLI を使用した実際の開発体験に基づいて書かれています。</em></p>
+        </div>
+        <footer class="mt-8 pt-8 border-t border-gray-200">
+          <a href="/" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            記事一覧に戻る
+          </a>
+        </footer>
+      </article>
+    </main>
+    <footer class="bg-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+      <p>© 2025 My Daily Blog. All rights reserved.</p>
+    </div>
+  </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const tagsButton = document.getElementById('tags-button');
+        if (tagsButton) {
+          tagsButton.addEventListener('click', function() {
+            window.location.href = '/';
+          });
+        }
+      });
+    </script>
+    <script src="/prism/prism.js"></script>
+    <script src="/prism/prism-javascript.js"></script>
+    <script src="/prism/prism-typescript.js"></script>
+    <script src="/prism/prism-jsx.js"></script>
+    <script src="/prism/prism-tsx.js"></script>
+    <script src="/prism/prism-json.js"></script>
+    <script src="/prism/prism-bash.js"></script>
+    <script src="/prism/prism-css.js"></script>
+    <script src="/prism/prism-markup.js"></script>
+    <script src="/prism/prism-line-numbers.js"></script>
+</body>
+</html>

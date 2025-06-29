@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践 - たてまる blog</title>
+    <meta name="description" content="Web系テック記事とアウトドア関連を中心に、日々の出来事を綴るブログ">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/prism/prism-tomorrow.css" rel="stylesheet">
+    <link href="/prism/prism-line-numbers.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    
+    <header class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900">
+          <a href="/" class="hover:text-blue-600 transition-colors duration-200">たてまる blog</a>
+        </h1>
+        <ul class="flex items-center space-x-8">
+          <li><a href="/" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a></li>
+          <li><a href="/about" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">About</a></li>
+          <li><button id="tags-button" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Tags</button></li>
+          <li>
+            <div class="relative group">
+              <button class="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                Archive
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div class="py-2">
+                  <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">すべての投稿</a>
+                  
+                    <div class="relative group/year">
+                      <div class="block px-4 py-2 text-sm transition-colors duration-200 flex items-center justify-between cursor-pointer text-gray-700 hover:bg-gray-100">
+                        <a href="/archive/2024" class="flex-grow">2024年</a>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                      <div class="absolute left-full top-0 w-32 bg-white rounded-md shadow-lg border border-gray-200 ml-1 opacity-0 invisible group-hover/year:opacity-100 group-hover/year:visible transition-all duration-200 z-50">
+                        <div class="py-2">
+                          
+                            <a href="/archive/2024/06" class="block px-4 py-2 text-sm transition-colors duration-200 text-gray-700 hover:bg-gray-100">6月</a>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+    <main class="flex-grow max-w-4xl mx-auto px-6 py-8 w-full">
+      <article class="bg-white rounded-lg shadow-sm p-8">
+        <header class="mb-8">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践</h1>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="tag">Amazon Q</span><span class="tag">AI</span><span class="tag">ゲーム開発</span><span class="tag">Python</span><span class="tag">デザインパターン</span><span class="tag">OpenAI</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-gray-500 border-b border-gray-200 pb-4">
+            <time datetime="2024-06-22">作成日: 2024/6/22</time>
+            <span>更新日: 2024/6/29</span>
+          </div>
+        </header>
+        <div class="prose prose-lg max-w-none">
+          <h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8 first:mt-0">Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践</h1>
+<img src="/images/2025/06/othello-game-with-amazon-q/image1.png" alt="説明文" class="w-full h-auto rounded-lg shadow-md my-6">
+<p class="text-gray-700 leading-relaxed mb-4">今回はAmazon Q CLIを使ってオセロをできるゲームを開発しました。  
+AWSの下記の企画を見て参加することにしました。  
+[Amazon Q CLI でゲームを作ろう Tシャツキャンペーン](https://aws.amazon.com/jp/blogs/news/build-games-with-amazon-q-cli-and-score-a-t-shirt/)</p>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">プロジェクト概要</h2>
+<p class="text-gray-700 leading-relaxed mb-4">今回作成したオセロゲームは、以下の特徴を持つCLIアプリケーションです：</p>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">🎮 ゲーム機能</h3>
+<li class="mb-2"><strong class="font-semibold">日本語英語選択可能</strong>: </li>
+<li class="mb-2"><strong class="font-semibold">5つのゲームモード</strong>: </li>
+<li class="mb-2"><strong class="font-semibold">OpenAI API連携</strong>: GPT-4o-mini、GPT-4o、GPT-3.5-turboから選択可能</li>
+<img src="/images/2025/06/othello-game-with-amazon-q/menu.png" alt="メニュー" class="w-full h-auto rounded-lg shadow-md my-6">
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">🏗️ 技術的特徴</h3>
+<li class="mb-2">docker</li>
+<li class="mb-2">python</li>
+<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-8">Amazon Q CLIとの開発体験</h2>
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">AIアシスタントの活用場面</h3>
+<p class="text-gray-700 leading-relaxed mb-4">Amazon Q CLIはbrewwを使ってインストールし、コマンドラインから直接対話できます。</p>
+<pre class="line-numbers"><code class="language-bash">$ brew install --cask amazon-q</code></pre>
+<p class="text-gray-700 leading-relaxed mb-4">早速使ってみます。</p>
+<pre class="line-numbers"><code class="language-bash">$ q</code></pre>
+<img src="/images/2025/06/othello-game-with-amazon-q/amazon_q.png" alt="amazon_q" class="w-full h-auto rounded-lg shadow-md my-6">
+<p class="text-gray-700 leading-relaxed mb-4">!?!?!?!?  
+Amazon Q CLIのモデルはSonetなんですね。びっくりしました。</p>
+<p class="text-gray-700 leading-relaxed mb-4">基本的にはCLIでオセロがしたいということを伝えて出力されたコードをレビューして修正事項を伝えます。  
+ただ修正する内容もあまりなかったです。もう少しデザインパターンを意識したコードにして欲しいと伝えたところ、Factory パターンを使ったコードにしてくれました。  
+これはかなり驚きました。</p>
+<p class="text-gray-700 leading-relaxed mb-4">あとは英語対応をなどもしてもらいました。  
+差分は下記のように綺麗に出力されるのも良かったです。</p>
+<img src="/images/2025/06/othello-game-with-amazon-q/output1.png" alt="amazon_q" class="w-full h-auto rounded-lg shadow-md my-6">
+<h3 class="text-xl font-semibold text-gray-800 mb-3 mt-6">完成コード</h3>
+[othello](https://github.com/tatemaru/othello)
+        </div>
+        <footer class="mt-8 pt-8 border-t border-gray-200">
+          <a href="/" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            記事一覧に戻る
+          </a>
+        </footer>
+      </article>
+    </main>
+    <footer class="bg-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+      <p>© 2025 My Daily Blog. All rights reserved.</p>
+    </div>
+  </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const tagsButton = document.getElementById('tags-button');
+        if (tagsButton) {
+          tagsButton.addEventListener('click', function() {
+            window.location.href = '/';
+          });
+        }
+      });
+    </script>
+    <script src="/prism/prism.js"></script>
+    <script src="/prism/prism-javascript.js"></script>
+    <script src="/prism/prism-typescript.js"></script>
+    <script src="/prism/prism-jsx.js"></script>
+    <script src="/prism/prism-tsx.js"></script>
+    <script src="/prism/prism-json.js"></script>
+    <script src="/prism/prism-bash.js"></script>
+    <script src="/prism/prism-css.js"></script>
+    <script src="/prism/prism-markup.js"></script>
+    <script src="/prism/prism-line-numbers.js"></script>
+</body>
+</html>

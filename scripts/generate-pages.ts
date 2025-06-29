@@ -170,11 +170,11 @@ function markdownToHtml(content: string): string {
     // Handle inline code
     html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">$1</code>')
     
-    // Handle links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 underline">$1</a>')
-    
-    // Handle images
+    // Handle images first (to avoid conflict with links)
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full h-auto rounded-lg shadow-md my-6">')
+    
+    // Handle links (after images to avoid conflicts)
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 underline">$1</a>')
     
     // Wrap content appropriately
     if (html.startsWith('<h') || html.startsWith('<img')) {

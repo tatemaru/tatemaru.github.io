@@ -1,6 +1,7 @@
 import { writeFileSync, mkdirSync } from 'fs'
 import { join } from 'path'
 import { getAllPosts, getAllTags, getAvailableYears, getAvailableYearMonths, getPostsByTag, getYearMonthData } from '../app/utils/posts'
+import { fetchMultipleOGPData, generateOGPCard } from '../src/utils/ogp'
 
 // Helper function to generate HTML layout
 function generateLayout(title: string, content: string): string {
@@ -93,8 +94,8 @@ function generateFooter(): string {
   </footer>`
 }
 
-// Helper function to convert markdown to HTML
-function markdownToHtml(content: string): string {
+// Helper function to convert markdown to HTML with OGP support
+async function markdownToHtml(content: string): Promise<string> {
   // Split content into blocks first, preserving code blocks
   const blocks: string[] = []
   let current = ''
@@ -137,6 +138,22 @@ function markdownToHtml(content: string): string {
     blocks.push(current.trim())
   }
   
+  // Extract URLs for OGP processing
+  const urlPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const urls: string[] = [];
+  let match;
+  
+  while ((match = urlPattern.exec(content)) !== null) {
+    const url = match[2];
+    // Only process HTTP/HTTPS URLs and exclude images
+    if ((url.startsWith('http://') || url.startsWith('https://')) && !content.includes(`![${match[1]}](${url})`)) {
+      urls.push(url);
+    }
+  }
+  
+  // Fetch OGP data for all URLs
+  const ogpDataMap = urls.length > 0 ? await fetchMultipleOGPData(urls) : new Map();
+  
   // Process each block
   const processedBlocks = blocks.map(block => {
     const trimmed = block.trim()
@@ -173,11 +190,21 @@ function markdownToHtml(content: string): string {
     // Handle images first (to avoid conflict with links)
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full h-auto rounded-lg shadow-md my-6">')
     
-    // Handle links (after images to avoid conflicts)
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 underline">$1</a>')
+    // Handle links with OGP support (after images to avoid conflicts)
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+      // Check if this URL has OGP data and is HTTP/HTTPS
+      if ((url.startsWith('http://') || url.startsWith('https://')) && ogpDataMap.has(url)) {
+        const ogpData = ogpDataMap.get(url);
+        if (ogpData && (ogpData.title || ogpData.description || ogpData.image)) {
+          return generateOGPCard(ogpData);
+        }
+      }
+      // Fallback to regular link
+      return `<a href="${url}" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 underline">${text}</a>`;
+    })
     
     // Wrap content appropriately
-    if (html.startsWith('<h') || html.startsWith('<img')) {
+    if (html.startsWith('<h') || html.startsWith('<img') || html.startsWith('<div class="ogp-card')) {
       return html
     } else if (html.includes('<li')) {
       return `<ul class="list-disc list-inside space-y-2 mb-4 ml-4">${html}</ul>`
@@ -212,7 +239,7 @@ async function generateStaticPages() {
     const postsDir = join(distDir, 'posts')
     mkdirSync(postsDir, { recursive: true })
     
-    const contentHtml = markdownToHtml(post.content)
+    const contentHtml = await markdownToHtml(post.content)
     const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('ja-JP')
     
     const mainContent = `

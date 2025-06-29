@@ -186,3 +186,46 @@ code:not([class*="language-"]) {
 .tag-item:hover {
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
+
+/* OGP Card Styles */
+.ogp-card {
+  @apply border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 my-6;
+}
+
+.ogp-card a {
+  @apply block no-underline text-gray-900;
+}
+
+.ogp-card a:hover {
+  @apply text-gray-900;
+}
+
+.ogp-card h3 {
+  @apply font-semibold text-gray-900 mb-2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ogp-card p {
+  @apply text-gray-600 text-sm mb-3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ogp-card .site-name {
+  @apply text-xs text-gray-500 truncate;
+}
+
+.ogp-card img {
+  @apply w-full h-48 sm:h-full object-cover;
+}
+
+@media (min-width: 640px) {
+  .ogp-card img {
+    @apply h-full;
+  }
+}

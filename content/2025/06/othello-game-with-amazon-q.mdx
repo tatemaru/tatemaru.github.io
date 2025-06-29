@@ -1,0 +1,65 @@
+---
+title: "Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践"
+excerpt: "Amazon Q CLIを使って本格的なオセロゲームを開発しました。Factory パターンやOpenAI API連携など、AIアシスタントとのペアプログラミングで学んだことを共有します。"
+tags: ["Amazon Q", "AI", "ゲーム開発", "Python", "デザインパターン", "OpenAI"]
+thumbnail: "/images/2025/06/othello-game-with-amazon-q/amazon_q.png"
+created_at: "2024-06-22"
+updated_at: "2024-06-29"
+---
+
+# Amazon Q CLIでオセロゲームを作ってみた - AIペアプログラミングの実践
+
+![説明文](/images/2025/06/othello-game-with-amazon-q/image1.png)
+
+今回はAmazon Q CLIを使ってオセロをできるゲームを開発しました。  
+AWSの下記の企画を見て参加することにしました。  
+[Amazon Q CLI でゲームを作ろう Tシャツキャンペーン](https://aws.amazon.com/jp/blogs/news/build-games-with-amazon-q-cli-and-score-a-t-shirt/)
+
+## プロジェクト概要
+
+今回作成したオセロゲームは、以下の特徴を持つCLIアプリケーションです：
+
+### 🎮 ゲーム機能
+- **日本語英語選択可能**: 
+- **5つのゲームモード**: 
+- **OpenAI API連携**: GPT-4o-mini、GPT-4o、GPT-3.5-turboから選択可能
+
+![メニュー](/images/2025/06/othello-game-with-amazon-q/menu.png)
+
+### 🏗️ 技術的特徴
+- docker
+- python
+
+## Amazon Q CLIとの開発体験
+
+### AIアシスタントの活用場面
+
+Amazon Q CLIはbrewwを使ってインストールし、コマンドラインから直接対話できます。
+
+```bash
+$ brew install --cask amazon-q
+```
+
+早速使ってみます。
+
+```bash
+$ q
+```
+
+![amazon_q](/images/2025/06/othello-game-with-amazon-q/amazon_q.png)
+
+!?!?!?!?  
+Amazon Q CLIのモデルはSonetなんですね。びっくりしました。
+
+基本的にはCLIでオセロがしたいということを伝えて出力されたコードをレビューして修正事項を伝えます。  
+ただ修正する内容もあまりなかったです。もう少しデザインパターンを意識したコードにして欲しいと伝えたところ、Factory パターンを使ったコードにしてくれました。  
+これはかなり驚きました。
+
+あとは英語対応をなどもしてもらいました。  
+差分は下記のように綺麗に出力されるのも良かったです。
+
+![amazon_q](/images/2025/06/othello-game-with-amazon-q/output1.png)
+
+
+### 完成コード
+[othello](https://github.com/tatemaru/othello)
